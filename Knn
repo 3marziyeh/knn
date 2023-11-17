@@ -1,0 +1,32 @@
+from math import sqrt
+from collections import Counter
+
+# نمونه‌های داده
+samples = [
+    [1, 2],
+    [2, 3],
+    [3, 4],
+    [2, 1],
+    [3, 2]
+]
+
+# برچسب‌های داده‌ها
+labels = ['A', 'A', 'B', 'B', 'B']
+
+# ویژگی‌های تست
+test_features = [2.5, 2.5]
+
+# تعیین بهترین k
+def knn(k, feature, samples, labels):
+    distances = []
+    for i in range(len(samples)):
+        dist = sum([abs(feature[j] - samples[i][j]) for j in range(len(feature))])
+        distances.append((dist, labels[i]))
+    distances = sorted(distances)[:k]
+    nearest_labels = [label for (_, label) in distances]
+    return Counter(nearest_labels).most_common(1)[0][0]
+
+# یافتن بهترین k و چاپ کلاس تشخیص داده شده
+best_k = 3
+predicted_class = knn(best_k, test_features, samples, labels)
+print(f"The predicted class for test feature is: {predicted_class}")
